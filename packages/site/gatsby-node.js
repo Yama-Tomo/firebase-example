@@ -26,5 +26,6 @@ exports.createPages = async ({ actions }) => {
     .filter(page => typeof page.createPageCb === 'function')
     .map(page => page.createPageCb(actions, store))
 
+  // TODO: 同時に処理する数を制限できるように
   await Promise.all(callbacks)
 }
