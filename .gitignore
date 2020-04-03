@@ -66,6 +66,7 @@ node_modules/
 
 # credentials
 .firebaserc
+.secrets
 
 # editor
 # User-specific stuff
