@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import './src/styles/global.css'
 
 export const onClientEntry = () => {
   firebase.initializeApp({
