@@ -1,13 +1,14 @@
 import * as React from 'react';
 import * as Firebase from 'firebase/app';
 import 'firebase/firestore';
-import { Actions, PageProps } from 'gatsby';
+import { Actions, PageProps, Link } from 'gatsby';
 import { Information } from '../../../firestore_schema';
+import { WithLayout } from '~/components/layout';
 
 type Context = { information: { text: string; createdAt: number }[] };
 
-const Component: React.FC<PageProps<undefined, Context>> = props => {
-  return (
+const Component: React.FCX<PageProps<undefined, Context>> = props => (
+  <>
     <div>
       <h1>firebase example</h1>
       <h2>information</h2>
@@ -18,9 +19,15 @@ const Component: React.FC<PageProps<undefined, Context>> = props => {
           </li>
         ))}
       </ul>
+      <h3>contents</h3>
+      <ul>
+        <li>
+          <Link to="/articles">search articles</Link>
+        </li>
+      </ul>
     </div>
-  );
-};
+  </>
+);
 
 export const createPageCb = async (
   actions: Actions,
@@ -42,4 +49,4 @@ export const createPageCb = async (
   });
 };
 
-export default Component;
+export default WithLayout(Component);
