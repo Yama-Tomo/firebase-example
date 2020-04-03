@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Link, PageProps } from 'gatsby';
 import styled from 'styled-components';
-import './layout.css';
 
 type LayoutPageProps = Omit<PageProps<undefined, {}>, 'children'> & { children: JSX.Element };
 

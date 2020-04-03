@@ -7,6 +7,7 @@ require('ts-node').register({
     module: 'commonjs',
     target: 'esnext',
   },
+  files: true,
 })
 
 exports.onCreateWebpackConfig = ({ actions, loaders, getConfig }) => {
