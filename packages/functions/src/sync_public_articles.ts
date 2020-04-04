@@ -5,7 +5,7 @@ import {
   articleCollection,
   PublicArticle,
   publicArticleCollection,
-} from '../../packages/firestore_schema';
+} from '../../firestore_schema';
 
 const db = admin.initializeApp(functions.config().firebase).firestore();
 const artistDocPath = `${articleCollection}/{id}`;

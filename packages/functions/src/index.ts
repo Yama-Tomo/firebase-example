@@ -1,4 +1,4 @@
-export * from './sync_public_artist';
+export * from './sync_public_articles';
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
