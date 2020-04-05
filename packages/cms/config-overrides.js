@@ -11,6 +11,7 @@ module.exports = {
 
     // enable alias import
     config.resolve.alias['~'] = path.resolve('./src')
+    config.resolve.symlinks = false
 
     return config
   },
