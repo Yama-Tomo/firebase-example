@@ -27,9 +27,14 @@ const uiConfig = {
   ],
 };
 
-const UiComponent: React.FCX<{ user: AuthorizedUserState }> = (props) => (
-  <div {...props}>
-    <aside>CMS</aside>
+const UiComponent: React.FCX<{ user: AuthorizedUserState; onSignOutClick?: () => void }> = (
+  props
+) => (
+  <div className={props.className}>
+    <aside>
+      CMS
+      <span onClick={props.onSignOutClick}>sign out</span>
+    </aside>
     <main>
       {!props.user.isAdmin && <div>権限がありません</div>}
       {props.user.isAdmin && <CachedRoutes />}
@@ -57,6 +62,11 @@ const StyledUiComponent = styled(UiComponent)`
     color: #222;
     box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
     position: relative;
+
+    span {
+      float: right;
+      cursor: pointer;
+    }
   }
 
   > main {
@@ -88,7 +98,7 @@ const Container = () => {
     return <SignIn />;
   }
 
-  return <StyledUiComponent user={user} />;
+  return <StyledUiComponent user={user} onSignOutClick={() => firebase.auth().signOut()} />;
 };
 
 /*---------------------------------------------- */
