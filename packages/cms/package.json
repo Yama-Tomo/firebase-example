@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-firebaseui": "^4.1.0",
     "react-scripts": "3.4.1",
     "styled-components": "^5.0.1"
   },
