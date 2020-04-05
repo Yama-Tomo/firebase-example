@@ -6,6 +6,6 @@ export type Article = {
   title: string;
   body: string;
   tags: string[];
-  update_at: firebase.firestore.Timestamp;
+  updated_at: firebase.firestore.Timestamp;
   created_at: firebase.firestore.Timestamp;
 }
