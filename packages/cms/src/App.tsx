@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { hot } from 'react-hot-loader';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
@@ -46,4 +47,4 @@ const Container = () => {
 };
 
 /*---------------------------------------------- */
-export default Container;
+export default hot(module)(Container);
