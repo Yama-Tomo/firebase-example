@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
-import { initialize } from '~/libs/firebase';
+import { initializeFirebase } from '~/libs';
 import { SessionStateProvider } from '~/state';
 
-initialize();
+initializeFirebase();
 
 ReactDOM.render(
   <BrowserRouter>
