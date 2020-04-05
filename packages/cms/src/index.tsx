@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { initialize } from '~/libs/firebase';
+import { SessionStateProvider } from '~/state';
 
 initialize();
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <SessionStateProvider>
+    <App />
+  </SessionStateProvider>,
+  document.getElementById('root')
+);
