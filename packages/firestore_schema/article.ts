@@ -8,4 +8,4 @@ export type Article = {
   tags: string[];
   updated_at: firebase.firestore.Timestamp;
   created_at: firebase.firestore.Timestamp;
-}
+};
