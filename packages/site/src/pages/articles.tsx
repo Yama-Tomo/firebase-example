@@ -1,5 +1,5 @@
 import React, { ComponentProps, forwardRef, useEffect, useRef, useState } from 'react';
-import { PageProps } from 'gatsby';
+import { Link, PageProps } from 'gatsby';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { WithLayout } from '~/components/layout';
@@ -21,7 +21,9 @@ const UiComponent = forwardRef<HTMLInputElement, Props>((props, ref) => (
     <button onClick={props.onSearchClick}>検索</button>
     <ul>
       {props.articles.map(article => (
-        <li key={article.id}>{article.title}</li>
+        <li key={article.id}>
+          <Link to={`/articles/${article.id}`}>{article.title}</Link>
+        </li>
       ))}
     </ul>
   </div>
