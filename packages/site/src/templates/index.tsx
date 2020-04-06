@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Actions, PageProps, Link } from 'gatsby';
-import { Information } from '~/external_packages/firestore_schema';
+import { Information, informationCollection } from '~/external_packages/firestore_schema';
 import { WithLayout } from '~/components/layout';
 
 type Context = { information: { text: string; createdAt: number }[] };
@@ -33,7 +33,7 @@ export const createPageCb = async (
   actions: Actions,
   store: ReturnType<typeof Firebase.firestore>
 ) => {
-  const res = await store.collection('information').get();
+  const res = await store.collection(informationCollection).get();
   const context: Context = {
     information: res.docs.map(doc => {
       const data = doc.data() as Information;
