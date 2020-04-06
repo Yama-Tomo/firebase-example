@@ -6,6 +6,7 @@ dotenv.config({ path: `.env.${activeEnv}` })
 module.exports = {
   plugins: [
     'gatsby-plugin-typescript',
+    'gatsby-plugin-react-helmet',
     {
       resolve: 'gatsby-plugin-graphql-codegen',
       options: {
