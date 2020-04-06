@@ -5,7 +5,7 @@ import { Actions, PageProps, Link } from 'gatsby';
 import { Information, informationCollection } from '~/external_packages/firestore_schema';
 import { WithLayout } from '~/components/layout';
 
-type Context = { information: { text: string; createdAt: number }[] };
+type Context = { information: { id: string; text: string; createdAt: number }[] };
 
 const Component: React.FCX<PageProps<undefined, Context>> = props => (
   <>
@@ -14,7 +14,7 @@ const Component: React.FCX<PageProps<undefined, Context>> = props => (
       <h2>information</h2>
       <ul>
         {props.pageContext.information.map((info, idx) => (
-          <li key={idx}>
+          <li key={info.id}>
             {new Date(info.createdAt).toLocaleString()}: {info.text}
           </li>
         ))}
@@ -33,12 +33,15 @@ export const createPageCb = async (
   actions: Actions,
   store: ReturnType<typeof Firebase.firestore>
 ) => {
-  const res = await store.collection(informationCollection).get();
+  const qs = await (store.collection(
+    informationCollection
+  ) as Firebase.firestore.CollectionReference<Information>).get();
+
   const context: Context = {
-    information: res.docs.map(doc => {
-      const data = doc.data() as Information;
+    information: qs.docs.map(doc => {
+      const data = doc.data();
       // context にはプリミティブな値しか渡せない
-      return { text: data.text, createdAt: data.created_at.toDate().getTime() };
+      return { id: doc.id, text: data.text, createdAt: data.created_at.toDate().getTime() };
     }),
   };
 
