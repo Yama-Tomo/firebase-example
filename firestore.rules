@@ -9,9 +9,8 @@ service cloud.firestore {
       allow read, write: if request.auth.token.admin == true;
     }
 
-    match /public_artists/{id} {
-      //allow read, write: if false
-      allow read, write: if request.time < timestamp.date(2020, 5, 2);
+    match /public_articles/{id} {
+      allow read
     }
   }
 }
