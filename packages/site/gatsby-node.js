@@ -21,7 +21,7 @@ exports.createPages = async ({ actions }) => {
   const app = firebase.initializeApp()
   const store = app.firestore()
 
-  const pages = glob.sync('./src/templates/**.tsx').map(file => require(file))
+  const pages = glob.sync('./src/templates/**/*.tsx').map(file => require(file))
   const callbacks = pages
     .filter(page => typeof page.createPageCb === 'function')
     .map(page => page.createPageCb(actions, store))
