@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import { AdminUid, adminUidsCollection } from '../../firestore_schema';
+import { AdminUid, adminUidsCollection } from './external_packages/firestore_schema';
 
 const adminUidsDocPath = `${adminUidsCollection}/{id}`;
 

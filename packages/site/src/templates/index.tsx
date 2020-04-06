@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as Firebase from 'firebase/app';
 import 'firebase/firestore';
 import { Actions, PageProps, Link } from 'gatsby';
-import { Information } from '../../../firestore_schema';
+import { Information } from '~/external_packages/firestore_schema';
 import { WithLayout } from '~/components/layout';
 
 type Context = { information: { text: string; createdAt: number }[] };

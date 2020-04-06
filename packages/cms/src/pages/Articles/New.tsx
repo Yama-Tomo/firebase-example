@@ -1,6 +1,6 @@
 import React, { ComponentProps, useEffect, useReducer } from 'react';
 import firebase from 'firebase/app';
-import { Article, articleCollection } from '~/firestore_schema';
+import { Article, articleCollection } from '~/external_packages/firestore_schema';
 import { appendTimestamp, withUpdateStateReducer } from '~/libs';
 
 type InputProps = JSX.IntrinsicElements['input'];
