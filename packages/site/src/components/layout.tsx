@@ -33,9 +33,9 @@ const StyledUiComponent = styled(UiComponent)`
 
 export const WithLayout = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Component: React.FC<PageProps<undefined, any>>
+  Component: React.FC<PageProps<any, any>>
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): React.FC<PageProps<undefined, any>> => {
+): React.FC<PageProps<any, any>> => {
   return props => <StyledUiComponent {...props} children={<Component {...props} />} />;
 };
 
