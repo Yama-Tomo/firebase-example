@@ -1,11 +1,11 @@
 import * as React from 'react';
-import * as Firebase from 'firebase/app';
 import 'firebase/firestore';
-import { Actions, PageProps } from 'gatsby';
-import { Article, articleCollection } from '~/external_packages/firestore_schema';
+import { CreatePagesArgs, PageProps } from 'gatsby';
+import { AllArticlesQuery } from '../../../graphql';
 import { WithLayout } from '~/components/layout';
+import { graphql } from '~/libs';
 
-type Context = { article: Article<true> };
+type Context = { article: { title: string; body: string; tags: string[] } };
 
 const Component: React.FCX<PageProps<undefined, Context>> = props => (
   <>
@@ -22,22 +22,52 @@ const Component: React.FCX<PageProps<undefined, Context>> = props => (
   </>
 );
 
-export const createPageCb = async (
-  actions: Actions,
-  store: ReturnType<typeof Firebase.firestore>
-) => {
-  const qs = await (store.collection(articleCollection) as Firebase.firestore.CollectionReference<
-    Article
-  >).get();
+// NOTE: createPages 内でクエリを投げたい場合は ~/libs の graphql を使わないと型定義が生成されないので注意
+const query = graphql`
+  query AllArticles {
+    allArticles {
+      edges {
+        node {
+          body
+          id
+          tags
+          title
+          created_at {
+            nanoSec
+            sec
+          }
+          updated_at {
+            nanoSec
+            sec
+          }
+        }
+      }
+    }
+  }
+`;
 
-  qs.docs.forEach(doc => {
-    const data = doc.data();
+export const createPageCb = async (args: CreatePagesArgs) => {
+  const res = await args.graphql<AllArticlesQuery>(query[0]);
+
+  res!.data!.allArticles.edges.forEach(data => {
+    if (
+      !(typeof data.node.title == 'string') ||
+      !(typeof data.node.body === 'string') ||
+      !Array.isArray(data.node.tags)
+    ) {
+      return;
+    }
+
     const context: Context = {
-      article: { ...data, id: doc.id },
+      article: {
+        title: data.node.title,
+        body: data.node.body,
+        tags: data.node.tags as string[],
+      },
     };
 
-    actions.createPage({
-      path: `/articles/${doc.id}`,
+    args.actions.createPage({
+      path: `/articles/${data.node.id}`,
       component: require.resolve(__filename.replace('.tsx', '')),
       context,
     });
