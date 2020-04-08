@@ -10,11 +10,19 @@
     ]
   },
   "hosting": {
-    "public": "public",
+    "predeploy": [
+      "cd packages/site && yarn build",
+      "./deploy/prepare_site_file.sh"
+    ],
+    "public": "dist/site",
+    "rewrites": [
+      {
+        "source": "**",
+        "function": "basicAuthSiteHosting"
+      }
+    ],
     "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
+      "**/.*"
     ]
   },
   "storage": {
