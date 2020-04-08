@@ -4,16 +4,21 @@ import 'firebase/firestore';
 import { PageProps, Link, useStaticQuery, graphql } from 'gatsby';
 import { AllInformationQuery } from '../../graphql';
 import { WithLayout } from '~/components/layout';
+import Seo from '~/components/seo';
 
 type Information = { id: string; text: string | undefined; date: string | undefined }[];
 
-const Component: React.FCX<PageProps<undefined, {}> & { information: Information }> = props => (
+const Component: React.FCX<PageProps<undefined, {}> & { information: Information }> = ({
+  information,
+  ...rest
+}) => (
   <>
+    <Seo {...rest} title={'custom title'} />
     <div>
       <h1>firebase example</h1>
       <h2>information</h2>
       <ul>
-        {props.information.map(info => {
+        {information.map(info => {
           if (info.date && info.text) {
             return (
               <li key={info.id}>
