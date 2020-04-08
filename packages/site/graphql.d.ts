@@ -30,11 +30,11 @@ export type Articles = Node & {
   parent?: Maybe<Node>;
   children: Array<Node>;
   internal: Internal;
+  body?: Maybe<Scalars['String']>;
+  created_at?: Maybe<ArticlesCreated_At>;
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
   updated_at?: Maybe<ArticlesUpdated_At>;
-  created_at?: Maybe<ArticlesCreated_At>;
 };
 
 export type ArticlesConnection = {
@@ -161,24 +161,24 @@ export type ArticlesFieldsEnum =
   'internal___mediaType' |
   'internal___owner' |
   'internal___type' |
+  'body' |
+  'created_at___sec' |
+  'created_at___nanoSec' |
   'tags' |
   'title' |
-  'body' |
   'updated_at___sec' |
-  'updated_at___nanoSec' |
-  'created_at___sec' |
-  'created_at___nanoSec';
+  'updated_at___nanoSec';
 
 export type ArticlesFilterInput = {
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
   internal?: Maybe<InternalFilterInput>;
+  body?: Maybe<StringQueryOperatorInput>;
+  created_at?: Maybe<ArticlesCreated_AtFilterInput>;
   tags?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
-  body?: Maybe<StringQueryOperatorInput>;
   updated_at?: Maybe<ArticlesUpdated_AtFilterInput>;
-  created_at?: Maybe<ArticlesCreated_AtFilterInput>;
 };
 
 export type ArticlesGroupConnection = {
@@ -828,8 +828,8 @@ export type Information = Node & {
   parent?: Maybe<Node>;
   children: Array<Node>;
   internal: Internal;
-  text?: Maybe<Scalars['String']>;
   created_at?: Maybe<InformationCreated_At>;
+  text?: Maybe<Scalars['String']>;
 };
 
 export type InformationConnection = {
@@ -956,17 +956,17 @@ export type InformationFieldsEnum =
   'internal___mediaType' |
   'internal___owner' |
   'internal___type' |
-  'text' |
   'created_at___sec' |
-  'created_at___nanoSec';
+  'created_at___nanoSec' |
+  'text';
 
 export type InformationFilterInput = {
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
   internal?: Maybe<InternalFilterInput>;
-  text?: Maybe<StringQueryOperatorInput>;
   created_at?: Maybe<InformationCreated_AtFilterInput>;
+  text?: Maybe<StringQueryOperatorInput>;
 };
 
 export type InformationGroupConnection = {
@@ -1054,10 +1054,10 @@ export type Query = {
   allSitePage: SitePageConnection;
   site?: Maybe<Site>;
   allSite: SiteConnection;
-  information?: Maybe<Information>;
-  allInformation: InformationConnection;
   articles?: Maybe<Articles>;
   allArticles: ArticlesConnection;
+  information?: Maybe<Information>;
+  allInformation: InformationConnection;
   siteBuildMetadata?: Maybe<SiteBuildMetadata>;
   allSiteBuildMetadata: SiteBuildMetadataConnection;
   sitePlugin?: Maybe<SitePlugin>;
@@ -1206,40 +1206,40 @@ export type QueryAllSiteArgs = {
 };
 
 
-export type QueryInformationArgs = {
-  id?: Maybe<StringQueryOperatorInput>;
-  parent?: Maybe<NodeFilterInput>;
-  children?: Maybe<NodeFilterListInput>;
-  internal?: Maybe<InternalFilterInput>;
-  text?: Maybe<StringQueryOperatorInput>;
-  created_at?: Maybe<InformationCreated_AtFilterInput>;
-};
-
-
-export type QueryAllInformationArgs = {
-  filter?: Maybe<InformationFilterInput>;
-  sort?: Maybe<InformationSortInput>;
-  skip?: Maybe<Scalars['Int']>;
-  limit?: Maybe<Scalars['Int']>;
-};
-
-
 export type QueryArticlesArgs = {
   id?: Maybe<StringQueryOperatorInput>;
   parent?: Maybe<NodeFilterInput>;
   children?: Maybe<NodeFilterListInput>;
   internal?: Maybe<InternalFilterInput>;
+  body?: Maybe<StringQueryOperatorInput>;
+  created_at?: Maybe<ArticlesCreated_AtFilterInput>;
   tags?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
-  body?: Maybe<StringQueryOperatorInput>;
   updated_at?: Maybe<ArticlesUpdated_AtFilterInput>;
-  created_at?: Maybe<ArticlesCreated_AtFilterInput>;
 };
 
 
 export type QueryAllArticlesArgs = {
   filter?: Maybe<ArticlesFilterInput>;
   sort?: Maybe<ArticlesSortInput>;
+  skip?: Maybe<Scalars['Int']>;
+  limit?: Maybe<Scalars['Int']>;
+};
+
+
+export type QueryInformationArgs = {
+  id?: Maybe<StringQueryOperatorInput>;
+  parent?: Maybe<NodeFilterInput>;
+  children?: Maybe<NodeFilterListInput>;
+  internal?: Maybe<InternalFilterInput>;
+  created_at?: Maybe<InformationCreated_AtFilterInput>;
+  text?: Maybe<StringQueryOperatorInput>;
+};
+
+
+export type QueryAllInformationArgs = {
+  filter?: Maybe<InformationFilterInput>;
+  sort?: Maybe<InformationSortInput>;
   skip?: Maybe<Scalars['Int']>;
   limit?: Maybe<Scalars['Int']>;
 };
