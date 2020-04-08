@@ -20,5 +20,7 @@ export const basicAuthSiteHosting = functions.https.onRequest(
 );
 
 export const basicAuthCmsHosting = functions.https.onRequest(
-  serverCreator(user, pass, './static/cms')
+  serverCreator(user, pass, './static/cms').get('/*', (req, res) => {
+    res.sendFile(path.resolve('./static/cms/index.html'));
+  })
 );
