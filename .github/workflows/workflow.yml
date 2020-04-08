@@ -1,0 +1,66 @@
+name: Main workflow
+on: [push]
+jobs:
+  deploy:
+    name: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.0.0
+      - uses: actions/cache@v1.0.3
+        with:
+          path: node_modules
+          key: root-node_modules-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            root-node_modules-
+      - uses: actions/cache@v1.0.3
+        with:
+          path: packages/cms/node_modules
+          key: cms-node_modules-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            cms-node_modules-
+      - uses: actions/cache@v1.0.3
+        with:
+          path: packages/functions/node_modules
+          key: functions-node_modules-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            functions-node_modules-
+      - uses: actions/cache@v1.0.3
+        with:
+          path: packages/site/node_modules
+          key: site-node_modules-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            site-node_modules-
+      # TODO: gatsby build caching  (.cache and public dir
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - name: yarn install
+        run: |
+          yarn
+          cd packages/cms && yarn
+          cd ../functions && yarn
+          cd ../site && yarn
+      - name: deploy
+        env:
+          REACT_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          REACT_APP_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          REACT_APP_FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+          REACT_APP_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          REACT_APP_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          REACT_APP_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          REACT_APP_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          REACT_APP_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          GATSBY_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          GATSBY_FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          GATSBY_FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+          GATSBY_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          GATSBY_FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+          GATSBY_FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+          GATSBY_FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          GATSBY_FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_CI_TOKEN }}
+        run: |
+          echo ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }} | base64 -d > ${HOME}/service-account.json
+          export GOOGLE_APPLICATION_CREDENTIALS=${HOME}/service-account.json
+          echo ${{ secrets.FIREBASE_RC }} | base64 -d > .firebaserc
+          yarn run firebase deploy
