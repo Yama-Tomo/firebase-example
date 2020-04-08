@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as Firebase from 'firebase/app';
+import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { PageProps, Link, useStaticQuery, graphql } from 'gatsby';
 import { AllInformationQuery } from '../../graphql';
@@ -60,7 +60,7 @@ const Container: React.FCX<PageProps<undefined, {}>> = props => {
       text: row.text || undefined,
       date:
         (row.created_at?.sec &&
-          new Firebase.firestore.Timestamp(row.created_at.sec, 0).toDate().toLocaleString()) ||
+          new firebase.firestore.Timestamp(row.created_at.sec, 0).toDate().toLocaleString()) ||
         undefined,
     };
   });
