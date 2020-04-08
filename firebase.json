@@ -9,22 +9,27 @@
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
   },
-  "hosting": {
-    "predeploy": [
-      "cd packages/site && yarn build",
-      "./deploy/prepare_site_file.sh"
-    ],
-    "public": "dist/site",
-    "rewrites": [
-      {
-        "source": "**",
-        "function": "basicAuthSiteHosting"
-      }
-    ],
-    "ignore": [
-      "**/.*"
-    ]
-  },
+  "hosting": [
+    {
+      "target": "site",
+      "predeploy": [
+        "cd packages/site && yarn build",
+        "./deploy/prepare_site_file.sh"
+      ],
+      "public": "dist/site",
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "basicAuthSiteHosting"
+        }
+      ],
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   },
