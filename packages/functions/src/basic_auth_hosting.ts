@@ -18,3 +18,7 @@ const serverCreator = (user: string, pass: string, hostingPath: string) => {
 export const basicAuthSiteHosting = functions.https.onRequest(
   serverCreator(user, pass, './static/site')
 );
+
+export const basicAuthCmsHosting = functions.https.onRequest(
+  serverCreator(user, pass, './static/cms')
+);

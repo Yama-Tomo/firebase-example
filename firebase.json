@@ -28,6 +28,23 @@
         "**/.*",
         "**/node_modules/**"
       ]
+    },
+    {
+      "target": "cms",
+      "predeploy": [
+        "cd packages/cms && yarn build",
+        "./deploy/prepare_cms_file.sh"
+      ],
+      "public": "dist/cms",
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "basicAuthCmsHosting"
+        }
+      ],
+      "ignore": [
+        "**/.*"
+      ]
     }
   ],
   "storage": {
