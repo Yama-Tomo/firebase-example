@@ -7,6 +7,7 @@ export type Article<IS_READ = false> = WithReadProps<IS_READ> & {
   title: string;
   body: string;
   tags: string[];
+  image_path?: string;
   updated_at: firebase.firestore.Timestamp;
   created_at: firebase.firestore.Timestamp;
 };
