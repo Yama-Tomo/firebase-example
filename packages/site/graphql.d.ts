@@ -1650,23 +1650,11 @@ export type SitePageConnectionGroupArgs = {
 };
 
 export type SitePageContext = {
-  article?: Maybe<SitePageContextArticle>;
-};
-
-export type SitePageContextArticle = {
-  title?: Maybe<Scalars['String']>;
-  body?: Maybe<Scalars['String']>;
-  tags?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-export type SitePageContextArticleFilterInput = {
-  title?: Maybe<StringQueryOperatorInput>;
-  body?: Maybe<StringQueryOperatorInput>;
-  tags?: Maybe<StringQueryOperatorInput>;
+  articleId?: Maybe<Scalars['String']>;
 };
 
 export type SitePageContextFilterInput = {
-  article?: Maybe<SitePageContextArticleFilterInput>;
+  articleId?: Maybe<StringQueryOperatorInput>;
 };
 
 export type SitePageEdge = {
@@ -1768,9 +1756,7 @@ export type SitePageFieldsEnum =
   'internal___owner' |
   'internal___type' |
   'isCreatedByStatefulCreatePages' |
-  'context___article___title' |
-  'context___article___body' |
-  'context___article___tags' |
+  'context___articleId' |
   'pluginCreator___id' |
   'pluginCreator___parent___id' |
   'pluginCreator___parent___parent___id' |
@@ -2179,10 +2165,12 @@ export type AllInformationQuery = { allInformation: { edges: Array<{ node: (
         & { created_at?: Maybe<Pick<InformationCreated_At, 'sec' | 'nanoSec'>> }
       ) }> } };
 
-export type AllArticlesQueryVariables = {};
+export type ArticleByIdQueryVariables = {
+  articleId?: Maybe<Scalars['String']>;
+};
 
 
-export type AllArticlesQuery = { allArticles: { edges: Array<{ node: (
-        Pick<Articles, 'body' | 'id' | 'tags' | 'title'>
-        & { created_at?: Maybe<Pick<ArticlesCreated_At, 'nanoSec' | 'sec'>>, updated_at?: Maybe<Pick<ArticlesUpdated_At, 'nanoSec' | 'sec'>> }
-      ) }> } };
+export type ArticleByIdQuery = { articles?: Maybe<(
+    Pick<Articles, 'title' | 'body' | 'id' | 'tags'>
+    & { created_at?: Maybe<Pick<ArticlesCreated_At, 'nanoSec' | 'sec'>> }
+  )> };
