@@ -35,6 +35,7 @@ export type Articles = Node & {
   tags?: Maybe<Array<Maybe<Scalars['String']>>>;
   title?: Maybe<Scalars['String']>;
   updated_at?: Maybe<ArticlesUpdated_At>;
+  image_path?: Maybe<Scalars['String']>;
 };
 
 export type ArticlesConnection = {
@@ -167,7 +168,8 @@ export type ArticlesFieldsEnum =
   'tags' |
   'title' |
   'updated_at___sec' |
-  'updated_at___nanoSec';
+  'updated_at___nanoSec' |
+  'image_path';
 
 export type ArticlesFilterInput = {
   id?: Maybe<StringQueryOperatorInput>;
@@ -179,6 +181,7 @@ export type ArticlesFilterInput = {
   tags?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   updated_at?: Maybe<ArticlesUpdated_AtFilterInput>;
+  image_path?: Maybe<StringQueryOperatorInput>;
 };
 
 export type ArticlesGroupConnection = {
@@ -1217,6 +1220,7 @@ export type QueryArticlesArgs = {
   tags?: Maybe<StringQueryOperatorInput>;
   title?: Maybe<StringQueryOperatorInput>;
   updated_at?: Maybe<ArticlesUpdated_AtFilterInput>;
+  image_path?: Maybe<StringQueryOperatorInput>;
 };
 
 
