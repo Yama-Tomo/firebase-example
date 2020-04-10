@@ -7,7 +7,7 @@ let isFirebaseInit = false
 require('ts-node').register({
   compilerOptions: {
     module: 'commonjs',
-    target: 'esnext',
+    target: 'ES2018',
   },
   files: true,
 })
