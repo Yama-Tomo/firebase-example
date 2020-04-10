@@ -1,20 +1,18 @@
-import * as React from 'react';
-import 'firebase/firestore';
-import { CreatePagesArgs, PageProps } from 'gatsby';
-import { AllArticlesQuery } from '../../../graphql';
+import React from 'react';
+import { CreatePagesArgs, PageProps, graphql } from 'gatsby';
+import { ArticleByIdQuery } from '../../../graphql';
 import { WithLayout } from '~/components/layout';
-import { graphql } from '~/libs';
+import { articleCollection } from '~/external_packages/firestore_schema';
+import { hasKey } from '~/libs';
 
-type Context = { article: { title: string; body: string; tags: string[] } };
-
-const Component: React.FCX<PageProps<undefined, Context>> = props => (
+const Component: React.FCX<PageProps<ArticleByIdQuery, {}>> = props => (
   <>
     <div>
-      <h1>{props.pageContext.article.title}</h1>
-      <p>{props.pageContext.article.body}</p>
+      <h1>{props.data!.articles?.title}</h1>
+      <p>{props.data!.articles?.body}</p>
       <h4>tags</h4>
       <ul>
-        {props.pageContext.article.tags.map((tag, idx) => (
+        {(props.data!.articles?.tags || []).map((tag, idx) => (
           <li key={idx}>{tag}</li>
         ))}
       </ul>
@@ -22,56 +20,40 @@ const Component: React.FCX<PageProps<undefined, Context>> = props => (
   </>
 );
 
-// NOTE: createPages 内でクエリを投げたい場合は ~/libs の graphql を使わないと型定義が生成されないので注意
-const query = graphql`
-  query AllArticles {
-    allArticles {
-      edges {
-        node {
-          body
-          id
-          tags
-          title
-          created_at {
-            nanoSec
-            sec
-          }
-          updated_at {
-            nanoSec
-            sec
-          }
-        }
+// NOTE: 変数代入にしてしまうと gatsby-node.js がこのファイルを require した時点で graphql が評価されてしまうのでそれを防ぐ為に関数にする
+// (関数にしても gatsbyは graphql を検知してくれるっぽい
+export const query = () => graphql`
+  query ArticleById($articleId: String) {
+    articles(id: { eq: $articleId }) {
+      title
+      body
+      id
+      tags
+      created_at {
+        nanoSec
+        sec
       }
     }
   }
 `;
 
 export const createPageCb = async (args: CreatePagesArgs) => {
-  const res = await args.graphql<AllArticlesQuery>(query[0]);
+  // NOTE: 1つのファイルでgraphql を複数定義できないので getNodesByType でデータ取得する
+  // graphql の型を再利用できないので unknown にして堅牢にする
+  const articles: unknown = args.getNodesByType(articleCollection);
 
-  res!.data!.allArticles.edges.forEach(data => {
-    if (
-      !(typeof data.node.title == 'string') ||
-      !(typeof data.node.body === 'string') ||
-      !Array.isArray(data.node.tags)
-    ) {
-      return;
-    }
+  Array.isArray(articles) &&
+    articles.forEach((article: unknown) => {
+      if (hasKey(article, 'id')) {
+        const id = String(article.id);
 
-    const context: Context = {
-      article: {
-        title: data.node.title,
-        body: data.node.body,
-        tags: data.node.tags as string[],
-      },
-    };
-
-    args.actions.createPage({
-      path: `/articles/${data.node.id}`,
-      component: require.resolve(__filename.replace('.tsx', '')),
-      context,
+        args.actions.createPage({
+          path: `/articles/${id}`,
+          component: require.resolve(__filename.replace('.tsx', '')),
+          context: { articleId: id },
+        });
+      }
     });
-  });
 };
 
 export default WithLayout(Component);
