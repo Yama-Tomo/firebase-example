@@ -1,13 +1,15 @@
 import React, { ComponentProps, forwardRef, useEffect, useMemo, useRef, useState } from 'react';
-import { graphql, Link, PageProps } from 'gatsby';
+import { graphql, Link, navigate, PageProps } from 'gatsby';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import styled from 'styled-components';
+import qs from 'qs';
 import Image, { FixedObject } from 'gatsby-image';
 import { SearchResultThumbnailsQuery } from '../../graphql';
 import { WithLayout } from '~/components/layout';
 import { PublicArticle, publicArticleCollection } from '~/external_packages/firestore_schema';
 import { ngramCreator } from '~/external_packages/ngram';
+import { hasKey } from '~/libs';
 
 type CollRef<T> = firebase.firestore.CollectionReference<T>;
 type Query<T> = firebase.firestore.Query<T>;
@@ -54,8 +56,10 @@ const StyledUiComponent = styled(UiComponent)`
 
 const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props => {
   const ref = useRef<HTMLInputElement>(null);
-  const [searchWord, setSearchWord] = useState('');
   const [articles, setArticles] = useState<Props['articles']>([]);
+
+  const params = qs.parse(props.location.search, { ignoreQueryPrefix: true });
+  const searchWord = hasKey(params, 'search') ? String(params.search) : '';
 
   const articleThumbs = useMemo(() => {
     return props.data.allFile.nodes.reduce((result, v) => {
@@ -94,7 +98,9 @@ const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props =
 
   const innerProps: ComponentProps<typeof UiComponent> = {
     onSearchClick() {
-      setSearchWord(ref.current?.value || '');
+      if (ref.current?.value) {
+        navigate(`/articles?search=${encodeURIComponent(ref.current.value)}`);
+      }
     },
     ref,
     articles,
