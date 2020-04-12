@@ -1,5 +1,7 @@
 import * as Firebase from 'firebase-admin';
 import { NodeInput, NodePluginArgs } from 'gatsby';
+import moment from 'moment';
+import { createRemoteFileNode } from 'gatsby-source-filesystem';
 import {
   Information,
   informationCollection,
@@ -60,6 +62,8 @@ export const sourceNodes = async (arg: NodePluginArgs) => {
   orderedNodes.forEach(nodeInputs => {
     nodeInputs != null && nodeInputs.forEach(nodeInput => arg.actions.createNode(nodeInput));
   });
+
+  await createArticleImageNode(arg, orderedNodes.get(articleCollection)!);
 };
 
 const getNodeLists = (store: Firebase.firestore.Firestore): CreateNodeLists => [
@@ -97,3 +101,40 @@ const toTuple = <T>(
   getQuerySnapshot: () => Promise<Firebase.firestore.QuerySnapshot<T>>,
   mapData: (data: T) => { [key: string]: unknown }
 ) => [collectionName, getQuerySnapshot, mapData] as const;
+
+const createArticleImageNode = async (arg: NodePluginArgs, articles: NodeInput[]) => {
+  const bucket = Firebase.storage().bucket(process.env.GATSBY_FIREBASE_STORAGE_BUCKET);
+
+  const promises = articles.map(async doc => {
+    if (!doc.image_path) {
+      return;
+    }
+
+    // prettier-ignore
+    const expires = moment().utc().add(1, 'minutes').format();
+    const [url] = await bucket
+      .file(String(doc.image_path))
+      .getSignedUrl({ action: 'read', expires });
+
+    if (!url) {
+      return;
+    }
+
+    const fileNode = await createRemoteFileNode({
+      url,
+      cache: arg.cache,
+      store: arg.store,
+      createNode: arg.actions.createNode,
+      createNodeId: arg.createNodeId,
+      reporter: {},
+    });
+
+    await arg.actions.createNodeField({
+      node: fileNode,
+      name: 'articleId',
+      value: doc.id,
+    });
+  });
+
+  await Promise.all(promises);
+};
