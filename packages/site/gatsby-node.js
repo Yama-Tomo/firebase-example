@@ -45,7 +45,6 @@ exports.createPages = async (arg) => {
 exports.sourceNodes = async (arg) => {
   const fireStore = require('./src/gatsby-node/firestore')
   initializeFirebase()
-  const store = firebase.firestore()
 
-  await Promise.all([fireStore.sourceNodes(arg, store)])
+  await Promise.all([fireStore.sourceNodes(arg)])
 }

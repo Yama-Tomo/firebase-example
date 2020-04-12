@@ -20,9 +20,8 @@ type CreateNodeLists = Array<
 // firestoreのデータをgatsby上のgraphqlで扱えるようにするためのデータを用意する関数
 export const sourceNodes = async (
   { actions, createContentDigest }: NodePluginArgs,
-  store: Firebase.firestore.Firestore
 ) => {
-  const nodeLists = getNodeLists(store);
+  const nodeLists = getNodeLists(Firebase.firestore());
 
   // createNode の実行順が型定義ファイルの順序に影響します
   // それが影響して型定義ファイルのgit管理に支障がでる(毎回中身が変わってdiffが出る)ので非同期関数に左右されないように順序を保証できる入れ物を用意
