@@ -1,4 +1,4 @@
-import * as Firebase from 'firebase/app';
+import * as Firebase from 'firebase-admin';
 import { NodeInput, NodePluginArgs } from 'gatsby';
 import {
   Information,
