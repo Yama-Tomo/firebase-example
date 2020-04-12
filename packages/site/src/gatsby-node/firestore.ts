@@ -18,9 +18,7 @@ type CreateNodeLists = Array<
 >;
 
 // firestoreのデータをgatsby上のgraphqlで扱えるようにするためのデータを用意する関数
-export const sourceNodes = async (
-  { actions, createContentDigest }: NodePluginArgs,
-) => {
+export const sourceNodes = async (arg: NodePluginArgs) => {
   const nodeLists = getNodeLists(Firebase.firestore());
 
   // createNode の実行順が型定義ファイルの順序に影響します
@@ -46,7 +44,7 @@ export const sourceNodes = async (
         children: [],
         internal: {
           type: collectionName,
-          contentDigest: createContentDigest(orderedData),
+          contentDigest: arg.createContentDigest(orderedData),
         },
       };
 
@@ -60,7 +58,7 @@ export const sourceNodes = async (
   await Promise.all(promises);
 
   orderedNodes.forEach(nodeInputs => {
-    nodeInputs != null && nodeInputs.forEach(nodeInput => actions.createNode(nodeInput));
+    nodeInputs != null && nodeInputs.forEach(nodeInput => arg.actions.createNode(nodeInput));
   });
 };
 
