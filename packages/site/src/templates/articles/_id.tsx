@@ -1,4 +1,5 @@
 import React from 'react';
+import Image, { FluidObject } from 'gatsby-image';
 import { CreatePagesArgs, PageProps, graphql } from 'gatsby';
 import { ArticleByIdQuery } from '../../../graphql';
 import { WithLayout } from '~/components/layout';
@@ -9,6 +10,9 @@ const Component: React.FCX<PageProps<ArticleByIdQuery, {}>> = props => (
   <>
     <div>
       <h1>{props.data!.articles?.title}</h1>
+      {props.data!.file?.childImageSharp?.fluid != null && (
+        <Image fluid={props.data.file.childImageSharp.fluid as FluidObject} />
+      )}
       <p>{props.data!.articles?.body}</p>
       <h4>tags</h4>
       <ul>
@@ -32,6 +36,13 @@ export const query = () => graphql`
       created_at {
         nanoSec
         sec
+      }
+    }
+    file(fields: { articleId: { eq: $articleId } }) {
+      childImageSharp {
+        fluid(maxWidth: 1280) {
+          ...GatsbyImageSharpFluid
+        }
       }
     }
   }
