@@ -78,6 +78,10 @@ const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props =
   }, [props.data]);
 
   useEffect(() => {
+    ref.current && (ref.current.value = searchWord);
+  }, [searchWord]);
+
+  useEffect(() => {
     if (isUseStateData || !searchWord || searchWord.length < 2) {
       return;
     }
