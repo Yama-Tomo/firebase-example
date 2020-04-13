@@ -1,4 +1,4 @@
-import React, { ComponentProps, forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ComponentProps, forwardRef, useEffect, useMemo, useRef, useContext } from 'react';
 import { graphql, Link, navigate, PageProps } from 'gatsby';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
@@ -10,6 +10,7 @@ import { WithLayout } from '~/components/layout';
 import { PublicArticle, publicArticleCollection } from '~/external_packages/firestore_schema';
 import { ngramCreator } from '~/external_packages/ngram';
 import { hasKey } from '~/libs';
+import { AppContext } from '~/state';
 
 type CollRef<T> = firebase.firestore.CollectionReference<T>;
 type Query<T> = firebase.firestore.Query<T>;
@@ -55,8 +56,10 @@ const StyledUiComponent = styled(UiComponent)`
 `;
 
 const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props => {
+  const { state, dispatch } = useContext(AppContext);
   const ref = useRef<HTMLInputElement>(null);
-  const [articles, setArticles] = useState<Props['articles']>([]);
+
+  const isUseStateData = props.location.key === state.search.routingKey;
 
   const params = qs.parse(props.location.search, { ignoreQueryPrefix: true });
   const searchWord = hasKey(params, 'search') ? String(params.search) : '';
@@ -75,10 +78,11 @@ const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props =
   }, [props.data]);
 
   useEffect(() => {
-    if (!searchWord || searchWord.length < 2) {
-      setArticles([]);
+    if (isUseStateData || !searchWord || searchWord.length < 2) {
       return;
     }
+
+    const routingKey = String(props.location.key);
 
     const queryBase = (firebase.firestore().collection(publicArticleCollection) as CollRef<
       PublicArticle
@@ -92,9 +96,9 @@ const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props =
 
     query.get().then(snapShot => {
       const data = snapShot.docs.map(d => ({ id: d.id, ...d.data() }));
-      setArticles(data);
+      dispatch({ type: 'search/setArticle', value: { routingKey, articles: data } });
     });
-  }, [searchWord, setArticles]);
+  }, [searchWord, isUseStateData, props.location.key, dispatch]);
 
   const innerProps: ComponentProps<typeof UiComponent> = {
     onSearchClick() {
@@ -103,7 +107,7 @@ const Container: React.FCX<PageProps<SearchResultThumbnailsQuery, {}>> = props =
       }
     },
     ref,
-    articles,
+    articles: isUseStateData ? state.search.articles : [],
     articleThumbs,
   };
 

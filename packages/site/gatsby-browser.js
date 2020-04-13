@@ -1,5 +1,7 @@
+import React from 'react'
 import firebase from 'firebase/app'
 import './src/styles/global.css'
+import { AppContextProvider } from '~/state'
 
 export const onClientEntry = () => {
   firebase.initializeApp({
@@ -13,3 +15,5 @@ export const onClientEntry = () => {
     measurementId: process.env.GATSBY_FIREBASE_MEASUREMENT_ID,
   })
 }
+
+export const wrapRootElement = ({ element }) => <AppContextProvider>{element}</AppContextProvider>
