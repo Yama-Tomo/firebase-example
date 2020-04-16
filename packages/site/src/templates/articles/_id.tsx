@@ -3,7 +3,7 @@ import Image, { FluidObject } from 'gatsby-image';
 import { CreatePagesArgs, PageProps, graphql } from 'gatsby';
 import { ArticleByIdQuery } from '../../../graphql';
 import { WithLayout } from '~/components/layout';
-import { articleCollection } from '~/external_packages/firestore_schema';
+import { articleCollection } from '@firebase-example/firestore_schema';
 import { hasKey } from '~/libs';
 
 const Component: React.FCX<PageProps<ArticleByIdQuery, {}>> = props => (

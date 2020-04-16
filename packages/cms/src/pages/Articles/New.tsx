@@ -3,7 +3,7 @@ import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone';
 import firebase from 'firebase/app';
 import 'firebase/storage';
 import styled from 'styled-components';
-import { Article, articleCollection } from '~/external_packages/firestore_schema';
+import { Article, articleCollection } from '@firebase-example/firestore_schema';
 import { appendTimestamp, withUpdateStateReducer } from '~/libs';
 
 type InputProps = JSX.IntrinsicElements['input'];

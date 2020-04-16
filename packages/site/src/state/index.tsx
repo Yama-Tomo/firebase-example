@@ -1,6 +1,6 @@
 import React, { Dispatch, ReducerAction } from 'react';
 import { createContext, useReducer } from 'react';
-import { PublicArticle } from '~/external_packages/firestore_schema';
+import { PublicArticle } from '@firebase-example/firestore_schema';
 
 type State = {
   search: {
