@@ -15,31 +15,39 @@ jobs:
       - uses: actions/cache@v1.0.3
         with:
           path: packages/cms/node_modules
-          key: cms-node_modules-${{ hashFiles('yarn.lock') }}
+          key: cms-node_modules-${{ hashFiles('packages/cms/package.json') }}
           restore-keys: |
             cms-node_modules-
       - uses: actions/cache@v1.0.3
         with:
-          path: packages/functions/node_modules
-          key: functions-node_modules-${{ hashFiles('yarn.lock') }}
-          restore-keys: |
-            functions-node_modules-
-      - uses: actions/cache@v1.0.3
-        with:
           path: packages/site/node_modules
-          key: site-node_modules-${{ hashFiles('yarn.lock') }}
+          key: site-node_modules-${{ hashFiles('packages/site/package.json') }}
           restore-keys: |
             site-node_modules-
+      - uses: actions/cache@v1.0.3
+        with:
+          path: packages/ngram/node_modules
+          key: ngram-node_modules-${{ hashFiles('packages/ngram/package.json') }}
+          restore-keys: |
+            ngram-node_modules-
+      - uses: actions/cache@v1.0.3
+        with:
+          path: packages/firestore_schema/node_modules
+          key: firestore_schema-node_modules-${{ hashFiles('packages/firestore_schema/package.json') }}
+          restore-keys: |
+            firestore_schema-node_modules-
+      - uses: actions/cache@v1.0.3
+        with:
+          path: functions/node_modules
+          key: functions-node_modules-${{ hashFiles('functions/yarn.lock') }}
+          restore-keys: |
+            functions-node_modules-
       # TODO: gatsby build caching  (.cache and public dir
       - uses: actions/setup-node@v1
         with:
           node-version: 10
       - name: yarn install
-        run: |
-          yarn
-          cd packages/cms && yarn
-          cd ../functions && yarn
-          cd ../site && yarn
+        run: yarn
       - name: deploy
         env:
           REACT_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
