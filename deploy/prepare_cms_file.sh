@@ -5,7 +5,7 @@ project_root=${current}/../
 
 # htmlへのリクエストをbasic認証をかけられるように functionsと一緒にデプロイするため `functions` 配下へコピーする
 app_path=${project_root}/packages/cms/build
-functions_dist_path=${project_root}/packages/functions/static/cms
+functions_dist_path=${project_root}/functions/static/cms
 
 # cleanup
 rm -rf ${functions_dist_path}
