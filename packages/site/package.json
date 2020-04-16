@@ -21,8 +21,9 @@
     "~": "src"
   },
   "scripts": {
-    "dev": "gatsby develop",
-    "build": "gatsby build",
+    "depend_pkgs_build": "yarn workspace @firebase-example/firestore_schema build && yarn workspace @firebase-example/ngram build",
+    "dev": "yarn run depend_pkgs_build && gatsby develop",
+    "build": "yarn run depend_pkgs_build && gatsby build",
     "lint": "eslint './src/**/*.{ts,tsx}' --format codeframe --color",
     "postinstall": "link-module-alias"
   },

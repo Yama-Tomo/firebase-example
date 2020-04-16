@@ -12,9 +12,9 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "build:mdx-loader": "tsc -p tsconfig.mdx-to-tsx-loader.json",
+    "depend_pkgs_build": "yarn workspace @firebase-example/firestore_schema build",
+    "start": "yarn depend_pkgs_build && react-app-rewired start",
+    "build": "yarn depend_pkgs_build && react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.{ts,tsx}' --format codeframe --color"
