@@ -65,8 +65,7 @@ node_modules/
 .env
 
 # artifacts
-/dist
-/packages/functions/static
+dist
 
 # credentials
 .firebaserc
