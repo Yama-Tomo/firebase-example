@@ -6,6 +6,12 @@
     "firebase-admin": "^8.10.0",
     "firebase-tools": "^8.0.0"
   },
+  "scripts": {
+    "site": "yarn workspace @firebase-example/site",
+    "cms": "yarn workspace @firebase-example/cms",
+    "ngram": "yarn workspace @firebase-example/ngram",
+    "firestore_schema": "yarn workspace @firebase-example/firestore_schema"
+  },
   "engines": {
     "node": "10"
   },
