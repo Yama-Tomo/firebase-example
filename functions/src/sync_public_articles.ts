@@ -5,8 +5,8 @@ import {
   articleCollection,
   PublicArticle,
   publicArticleCollection,
-} from './external_packages/firestore_schema';
-import { ngramCreator } from './external_packages/ngram';
+} from '@firebase-example/firestore_schema';
+import { ngramCreator } from '@firebase-example/ngram';
 
 const db = admin.initializeApp(functions.config().firebase).firestore();
 const artistDocPath = `${articleCollection}/{id}`;

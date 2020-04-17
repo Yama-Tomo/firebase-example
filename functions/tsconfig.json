@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "dist",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2017",
+    "skipLibCheck": true,
+    "composite": true,
+    "rootDir": "./src"
+  },
+  "compileOnSave": true,
+  "include": [
+    "src"
+  ],
+  "references": [
+    { "path": "./packages/ngram" },
+    { "path": "./packages/firestore_schema" }
+  ]
+}

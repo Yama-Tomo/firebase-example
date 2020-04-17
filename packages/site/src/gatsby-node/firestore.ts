@@ -7,7 +7,7 @@ import {
   informationCollection,
   articleCollection,
   Article,
-} from '~/external_packages/firestore_schema';
+} from '@firebase-example/firestore_schema';
 
 type CollRef<T> = Firebase.firestore.CollectionReference<T>;
 type CreateNodeLists = Array<

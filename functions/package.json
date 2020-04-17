@@ -2,7 +2,7 @@
   "name": "functions",
   "scripts": {
     "lint": "eslint './src/**/*.{ts,tsx}' --format codeframe --color",
-    "build": "tsc",
+    "build": "tsc -b",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
@@ -11,7 +11,7 @@
   "engines": {
     "node": "10"
   },
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "dependencies": {
     "basic-auth-connect": "^1.0.0",
     "firebase-admin": "^8.9.0",
@@ -34,5 +34,6 @@
     "prettier": "^2.0.2",
     "typescript": "^3.2.2"
   },
-  "private": true
+  "private": true,
+  "workspaces": ["packages/*"]
 }

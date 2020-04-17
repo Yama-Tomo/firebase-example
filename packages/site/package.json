@@ -1,5 +1,5 @@
 {
-  "name": "site",
+  "name": "@firebase-example/site",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,8 +21,9 @@
     "~": "src"
   },
   "scripts": {
-    "dev": "gatsby develop",
-    "build": "gatsby build",
+    "depend_pkgs_build": "yarn workspace @firebase-example/firestore_schema build && yarn workspace @firebase-example/ngram build",
+    "dev": "yarn run depend_pkgs_build && gatsby develop",
+    "build": "yarn run depend_pkgs_build && gatsby build",
     "lint": "eslint './src/**/*.{ts,tsx}' --format codeframe --color",
     "postinstall": "link-module-alias"
   },
@@ -31,13 +32,13 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-    "@types/node": "^13.7.7",
+    "@types/node": "^13.9.8",
     "@types/qs": "^6.9.1",
     "@types/styled-components": "^5.0.1",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "link-module-alias": "^1.2.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.0.2",
     "ts-node": "^8.6.2",
     "typescript": "^3.8.3"
   }

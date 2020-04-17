@@ -1,6 +1,7 @@
 module.exports = {
   root: true,
   plugins: [
+    'react',
     'prettier'
   ],
   extends: [

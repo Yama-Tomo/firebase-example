@@ -7,8 +7,8 @@ import qs from 'qs';
 import Image, { FixedObject } from 'gatsby-image';
 import { SearchResultThumbnailsQuery } from '../../graphql';
 import { WithLayout } from '~/components/layout';
-import { PublicArticle, publicArticleCollection } from '~/external_packages/firestore_schema';
-import { ngramCreator } from '~/external_packages/ngram';
+import { PublicArticle, publicArticleCollection } from '@firebase-example/firestore_schema';
+import { ngramCreator } from '@firebase-example/ngram';
 import { hasKey } from '~/libs';
 import { AppContext } from '~/state';
 
